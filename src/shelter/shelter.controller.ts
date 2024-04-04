@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Patch, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Inject, Patch, Post } from '@nestjs/common';
 import GetShelterDetailsUseCaseOutput from './usecases/dtos/get.shelter.details.usecase.output';
 import { IUseCase } from 'src/domain/iusecase.interface';
 import ShelterTokens from './shelter.tokens';
@@ -22,6 +22,14 @@ export class ShelterController {
 
     @Patch()
     async updateShelterDetails(@Body() input: UpdateShelterControllerInput) {
+       /* Para utilizar uma validação simples
+       if (input.name == "") {
+            throw new BadRequestException()        
+       }*/
+
+       
+
+          
        console.log(input)
     }
 }
