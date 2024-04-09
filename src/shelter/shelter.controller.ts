@@ -3,8 +3,8 @@ import GetShelterDetailsUseCaseOutput from './usecases/dtos/get.shelter.details.
 import { IUseCase } from 'src/domain/iusecase.interface';
 import ShelterTokens from './shelter.tokens';
 import UpdateShelterControllerInput from './dtos/update.shelter.controller.input';
-import UpdateShelterDetailsUserCaseInput from './usecases/dtos/update.shelter.details.usercase.input';
-import UpdateShelterDetailsUserCaseOutput from './usecases/dtos/update.shelter.details.usercase.output';
+import UpdateShelterDetailsUseCaseInput from './usecases/dtos/update.shelter.details.usecase.input';
+import UpdateShelterDetailsUseCaseOutput from './usecases/dtos/update.shelter.details.usecase.output';
 
 @Controller('shelter')
 export class ShelterController {
@@ -13,7 +13,7 @@ export class ShelterController {
     private readonly getShelterDetailsUseCase: IUseCase<null, GetShelterDetailsUseCaseOutput>
 
     @Inject(ShelterTokens.updateShelterDetailsUseCase)
-    private readonly updateShelterDetailsUseCase: IUseCase<UpdateShelterDetailsUserCaseInput, UpdateShelterDetailsUserCaseOutput>
+    private readonly updateShelterDetailsUseCase: IUseCase<UpdateShelterDetailsUseCaseInput, UpdateShelterDetailsUseCaseOutput>
 
     @Get()
     async getShelterDetails(): Promise<GetShelterDetailsUseCaseOutput>  {
@@ -27,10 +27,10 @@ export class ShelterController {
 
     @Put()
     async updateShelterDetails(@Body() input: UpdateShelterControllerInput)
-    : Promise<UpdateShelterDetailsUserCaseOutput>
+    : Promise<UpdateShelterDetailsUseCaseOutput>
     {
         console.log(input);
-       const useCaseInput = new UpdateShelterDetailsUserCaseInput({...input});
+       const useCaseInput = new UpdateShelterDetailsUseCaseInput({...input});
        return await this.updateShelterDetailsUseCase.run(useCaseInput);
     }
        
