@@ -7,6 +7,7 @@ import {
   NotFoundException,
   Param,
   Post,
+  Put,
 } from '@nestjs/common';
 import CreatePetControllerInput from './dtos/create.pet.controller.input';
 import CreatePetUseCaseInput from './usecases/dtos/create.pet.usecase.input';
@@ -15,6 +16,9 @@ import CreatePetUseCaseOutput from './usecases/dtos/create.pet.usecase.output';
 import PetTokens from './pet.tokens';
 import GetPetByIdUseCaseInput from './usecases/dtos/get.pet.by.id.usecase.input';
 import GetPetByIdUseCaseOutput from './usecases/dtos/get.pet.by.id.usecase.output';
+import UpdatePetControllerInput from './dtos/update.pet.controller.input';
+import UpdatePetByIdUseCaseInput from './usecases/dtos/update.pet.by.id.usecase.input';
+import UpdatePetByIdUseCaseOutput from './usecases/dtos/update.pet..by.id.usecase.output';
 
 @Controller('pet')
 export class PetController {
@@ -28,6 +32,12 @@ export class PetController {
     GetPetByIdUseCaseInput,
     GetPetByIdUseCaseOutput
   >;
+  @Inject(PetTokens.updatePetByIdUseCase)
+  private readonly updatePetByIdUseCase: IUseCase<
+    UpdatePetByIdUseCaseInput,
+    UpdatePetByIdUseCaseOutput
+  >;
+
 
   @Post()
   async createPet(
@@ -47,4 +57,14 @@ export class PetController {
       //throw new NotFoundException(JSON.parse(error.message));
     }
   }
+
+  @Put(':id')
+  async updatePet(
+    @Body() input: UpdatePetControllerInput, @Param('id') id: string) : Promise<UpdatePetByIdUseCaseOutput>
+   {
+      const usecaseinput = new UpdatePetByIdUseCaseInput({...input,id})
+      return await this.updatePetByIdUseCase.run(usecaseinput)
+   }
+
+  
 }
