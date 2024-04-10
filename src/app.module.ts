@@ -7,7 +7,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { PetModule } from './pet/pet.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(),
+  imports: [
+    ConfigModule.forRoot(),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -16,7 +17,8 @@ import { PetModule } from './pet/pet.module';
       }),
     }),
     ShelterModule,
-    PetModule,],
+    PetModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

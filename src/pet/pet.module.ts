@@ -10,20 +10,20 @@ import GetPetByIdUseCase from './usecases/get.pet.by.id.usecase';
 
 @Module({
   controllers: [PetController],
-  imports: [MongooseModule.forFeature([{name: Pet.name, schema: PetSchema}])],
+  imports: [MongooseModule.forFeature([{ name: Pet.name, schema: PetSchema }])],
   providers: [
-    { 
+    {
       provide: PetTokens.createPetUseCase,
-      useClass: CreatePetUseCase
+      useClass: CreatePetUseCase,
     },
     {
       provide: PetTokens.petRepository,
-      useClass: PetRepository
+      useClass: PetRepository,
     },
     {
       provide: PetTokens.getPetByIdUseCase,
-      useClass: GetPetByIdUseCase
-    }
-]
+      useClass: GetPetByIdUseCase,
+    },
+  ],
 })
 export class PetModule {}

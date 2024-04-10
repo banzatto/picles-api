@@ -1,4 +1,13 @@
-import { BadRequestException, Body, Controller, Get, Inject, NotFoundException, Param, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Inject,
+  NotFoundException,
+  Param,
+  Post,
+} from '@nestjs/common';
 import CreatePetControllerInput from './dtos/create.pet.controller.input';
 import CreatePetUseCaseInput from './usecases/dtos/create.pet.usecase.input';
 import { IUseCase } from 'src/domain/iusecase.interface';
@@ -9,28 +18,33 @@ import GetPetByIdUseCaseOutput from './usecases/dtos/get.pet.by.id.usecase.outpu
 
 @Controller('pet')
 export class PetController {
+  @Inject(PetTokens.createPetUseCase)
+  private readonly createPetUseCase: IUseCase<
+    CreatePetUseCaseInput,
+    CreatePetUseCaseOutput
+  >;
+  @Inject(PetTokens.getPetByIdUseCase)
+  private readonly getPetByIdUseCase: IUseCase<
+    GetPetByIdUseCaseInput,
+    GetPetByIdUseCaseOutput
+  >;
 
-    @Inject(PetTokens.createPetUseCase)
-    private readonly createPetUseCase : IUseCase<CreatePetUseCaseInput,CreatePetUseCaseOutput>;
-    @Inject(PetTokens.getPetByIdUseCase)
-    private readonly getPetByIdUseCase : IUseCase<GetPetByIdUseCaseInput,GetPetByIdUseCaseOutput>;
+  @Post()
+  async createPet(
+    @Body() input: CreatePetControllerInput,
+  ): Promise<CreatePetUseCaseOutput> {
+    const useCaseInput = new CreatePetUseCaseInput({ ...input });
+    return await this.createPetUseCase.run(useCaseInput);
+  }
 
-    @Post()
-    async createPet(@Body() input: CreatePetControllerInput) : Promise<CreatePetUseCaseOutput> {
-        const useCaseInput = new CreatePetUseCaseInput({...input})
-        return await this.createPetUseCase.run(useCaseInput)
+  @Get(':id')
+  async getPetById(@Param('id') id: string) {
+    try {
+      const useCaseInput = new GetPetByIdUseCaseInput({ id });
+      return await this.getPetByIdUseCase.run(useCaseInput);
+    } catch (error) {
+      throw new BadRequestException(JSON.parse(error.message));
+      //throw new NotFoundException(JSON.parse(error.message));
     }
-
-    @Get(':id')
-    async getPetById(@Param('id') id: string) {
-        try {
-        const useCaseInput = new GetPetByIdUseCaseInput({id});
-        return await this.getPetByIdUseCase.run(useCaseInput)
-        } catch (error) {
-            throw new BadRequestException(JSON.parse(error.message));
-            //throw new NotFoundException(JSON.parse(error.message));
-        }
-    }
-
-    
+  }
 }
