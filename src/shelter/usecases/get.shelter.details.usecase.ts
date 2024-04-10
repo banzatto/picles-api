@@ -1,4 +1,4 @@
-import { ShelterRepository } from './../shelter.repository';
+import  ShelterRepository  from './../shelter.repository';
 import { IUseCase } from "src/domain/iusecase.interface";
 import GetShelterDetailsUseCaseOutput from "./dtos/get.shelter.details.usecase.output";
 import IShelterRepository from '../interfaces/shelter.repository.interface';

@@ -1,8 +1,7 @@
 export default class PetTokens {
         static createPetUseCase = 'createPetUseCase'
-        static getPetUseCase = 'getPetUseCase'
+        static getPetByIdUseCase = 'getPetByIdUseCase'
         static updatePetUseCase = 'updatePetUseCase'
         static deletePetUseCase = 'deletePetUseCase'
-        static petRepository = 'petRepository'
-        
+        static petRepository = 'petRepository'        
 }

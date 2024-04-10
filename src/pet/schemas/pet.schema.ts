@@ -5,7 +5,7 @@ export type PetDocument = HydratedDocument<Pet>
 
 @Schema({ versionKey: false, })
 export class Pet {
-    @Prop({required: true, autor: true, type: mongoose.Schema.ObjectId})
+    @Prop({required: true, auto: true, type: mongoose.Schema.ObjectId})
     _id: string;
     @Prop({required: true})
     name: string;

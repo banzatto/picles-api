@@ -4,7 +4,7 @@ import ShelterTokens from './shelter.tokens';
 import GetShelterDetailsUseCase from './usecases/get.shelter.details.usecase';
 import { Shelter, ShelterSchema } from './schemas/shelter.schema';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ShelterRepository } from './shelter.repository';
+import ShelterRepository  from './shelter.repository';
 import UpdateShelterControllerInput from './dtos/update.shelter.controller.input';
 import UpdateShelterDetailsUseCase from './usecases/update.shelter.details.usecase';
 
