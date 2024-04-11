@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
   NotFoundException,
@@ -18,7 +19,9 @@ import GetPetByIdUseCaseInput from './usecases/dtos/get.pet.by.id.usecase.input'
 import GetPetByIdUseCaseOutput from './usecases/dtos/get.pet.by.id.usecase.output';
 import UpdatePetControllerInput from './dtos/update.pet.controller.input';
 import UpdatePetByIdUseCaseInput from './usecases/dtos/update.pet.by.id.usecase.input';
-import UpdatePetByIdUseCaseOutput from './usecases/dtos/update.pet..by.id.usecase.output';
+import UpdatePetByIdUseCaseOutput from './usecases/dtos/update.pet.by.id.usecase.output';
+import DeletePetByIdUseCaseInput from './usecases/dtos/delete.pet.by.id.usecase.input';
+import DeletePetByIdUseCaseOutput from './usecases/dtos/delete.pet.by.id.usecase.output';
 
 @Controller('pet')
 export class PetController {
@@ -38,6 +41,11 @@ export class PetController {
     UpdatePetByIdUseCaseOutput
   >;
 
+  @Inject(PetTokens.deletePetByIdUseCase)
+  private readonly deletePetByIdUseCase: IUseCase<
+    DeletePetByIdUseCaseInput,
+    DeletePetByIdUseCaseOutput
+  >;
 
   @Post()
   async createPet(
@@ -60,11 +68,24 @@ export class PetController {
 
   @Put(':id')
   async updatePet(
-    @Body() input: UpdatePetControllerInput, @Param('id') id: string) : Promise<UpdatePetByIdUseCaseOutput>
-   {
-      const usecaseinput = new UpdatePetByIdUseCaseInput({...input,id})
-      return await this.updatePetByIdUseCase.run(usecaseinput)
-   }
+    @Body() input: UpdatePetControllerInput,
+    @Param('id') id: string,
+  ): Promise<UpdatePetByIdUseCaseOutput> {
+    try {
+      const usecaseinput = new UpdatePetByIdUseCaseInput({ ...input, id });
+      return await this.updatePetByIdUseCase.run(usecaseinput);
+    } catch (error) {
+      throw new BadRequestException(JSON.parse(error.message));
+    }
+  }
 
-  
+  @Delete(':id')
+  async deletePet(@Param('id') id: string) {
+    try {
+      const useCaseInput = new DeletePetByIdUseCaseInput({ id });
+      return await this.deletePetByIdUseCase.run(useCaseInput);
+    } catch (error) {
+      throw new BadRequestException(JSON.parse(error.message));
+    }
+  }
 }

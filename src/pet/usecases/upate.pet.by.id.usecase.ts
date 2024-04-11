@@ -1,6 +1,6 @@
 import { IUseCase } from "src/domain/iusecase.interface";
 import UpdatePetByIdUseCaseInput from "./dtos/update.pet.by.id.usecase.input";
-import UpdatePetByIdUseCaseOutput from "./dtos/update.pet..by.id.usecase.output";
+import UpdatePetByIdUseCaseOutput from "./dtos/update.pet.by.id.usecase.output";
 import { Inject, Injectable } from "@nestjs/common";
 import PetTokens from "../pet.tokens";
 import IPetRepository from "../interfaces/pet.repository.interface";
