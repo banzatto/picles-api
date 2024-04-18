@@ -28,8 +28,9 @@ export default class GetPetsUseCase
 
     for (const currentPet of queryResponse.items) {
         if (currentPet.photo) {
-            const photoInBase64 = await this.fileService.readFile(currentPet.photo);
-            currentPet.photo = photoInBase64.toString('base64');
+            //const photoInBase64 = await this.fileService.readFile(currentPet.photo);
+            //currentPet.photo = photoInBase64.toString('base64');
+            currentPet.photo = await this.fileService.readFileInBase64(currentPet.photo);
         }
 
         petResponseList.push(PetResponse.fromPet(currentPet));
